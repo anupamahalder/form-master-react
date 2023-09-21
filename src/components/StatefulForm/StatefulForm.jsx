@@ -6,11 +6,21 @@ const StatefulForm = () => {
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [error, setError] = useState('');
 
     //add an event handler
     const handleSubmit = e =>{
         e.preventDefault();
-        console.log(name,email,password);
+        //we can validate our data from input field
+        //like password's length cannot be less than 8
+        if(password.length < 8){
+            setError('Password must be 8 characters or longer')
+        }
+        else{
+            //no error then show the result
+            setError('');
+            console.log(name,email,password);
+        }
     }
     const handleNameChange = e =>{
         setName(e.target.value);
@@ -28,14 +38,20 @@ const StatefulForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input onChange={handleNameChange} 
+                {/* To set the initial value of an input field we can use value property */}
+                <input onChange={handleNameChange} value ="Anupama Halder"
                 type="text" name="name" placeholder="Your full name"/> <br />
                 {/* onChange event handler does when we type anything in this input field then this eventhandler will be hitted */}
                 <input onChange={handleEmailChange} 
                 type="email" name="email" id="" placeholder="abc@gmail.com"/>
                 <br />
                 <input onChange={handlePasswordChange} 
-                type="password" name="password" id="" placeholder="password"/> <br />
+                type="password" name="password" id="" placeholder="password" required/> 
+                {
+                    //if error occured show it inside a paragraph tag
+                    error && <p>{error}</p>
+                }
+                <br />
                 {/* <button type="submit">Submit</button> */}
                 <input type="submit" value="Submit" />
             </form>
